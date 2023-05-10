@@ -1,12 +1,12 @@
 package org.ceaser.setting;
 
-public enum DateAlphabet {
+public enum LettersAlphabet {
     ENGLISH("ABCDEFGHIJKLMNOPQRSTUVWXYZ.,\":-!? «»\\"),
     UKRAINIAN("АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩьЮЯ.,\":-!? «»\\"),
     SPECIAL_CHARACTERS(",.\":-!? ");
 
     private String date;
-    DateAlphabet(String s) {
+    LettersAlphabet(String s) {
         this.date = s;
     }
 
