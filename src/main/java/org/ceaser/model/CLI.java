@@ -1,7 +1,6 @@
 package org.ceaser.model;
 
 import org.apache.commons.cli.*;
-import org.ceaser.Settings;
 import org.ceaser.error.Config;
 
 public class CLI {
