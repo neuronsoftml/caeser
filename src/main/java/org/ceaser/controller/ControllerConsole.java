@@ -1,5 +1,6 @@
 package org.ceaser.controller;
 
+import org.ceaser.error.ConfigError;
 import org.ceaser.model.CaesarCipher;
 import org.ceaser.setting.ConfigCLI;
 
@@ -25,6 +26,8 @@ public class ControllerConsole {
             runDecrypt();
         } else if (command.equals(ConfigCLI.COMMAND_BRUTE_FORCE.getValue())) {
             runBrutForce();
+        }else{
+            runErrorNotCommand();
         }
     }
 
@@ -41,6 +44,11 @@ public class ControllerConsole {
     private void runBrutForce(){
         CaesarCipher caesarCipher = new CaesarCipher(filepath);
         caesarCipher.brutForce();
+    }
+
+    private void runErrorNotCommand(){
+        System.out.println(ConfigError.ERROR_COMMAND.getText());
+        System.exit(0);
     }
 
 }
