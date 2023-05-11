@@ -1,8 +1,7 @@
 package org.ceaser.controller;
 
 import org.ceaser.model.CaesarCipher;
-import org.ceaser.model.FileService;
-import org.ceaser.setting.Settings;
+import org.ceaser.setting.ConfigCLI;
 
 public class ControllerConsole {
     private String command;
@@ -20,10 +19,12 @@ public class ControllerConsole {
     }
 
     private void checkCommand(String command){
-        if(command.equals(Settings.COMMAND_ENCRYPT.getValue())){
+        if(command.equals(ConfigCLI.COMMAND_ENCRYPT.getValue())){
             runEncryption();
-        } else if (command.equals(Settings.COMMAND_DECRYPT.getValue())) {
+        } else if (command.equals(ConfigCLI.COMMAND_DECRYPT.getValue())) {
             runDecrypt();
+        } else if (command.equals(ConfigCLI.COMMAND_BRUTE_FORCE.getValue())) {
+            runBrutForce();
         }
     }
 
