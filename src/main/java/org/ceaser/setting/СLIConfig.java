@@ -1,6 +1,6 @@
 package org.ceaser.setting;
 
-public enum Settings {
+public enum СLIConfig {
     MODE_OF_OPERATION_CONSOLE("CONSOLE"),
     MODE_OF_OPERATION_GUI("GUI"),
     COMMAND_ENCRYPT("ENCRYPT"),
@@ -9,7 +9,7 @@ public enum Settings {
 
     private String value;
 
-    Settings(String value){
+    СLIConfig(String value){
         this.value = value;
     }
 
