@@ -1,6 +1,6 @@
 package org.ceaser.model;
 
-import org.ceaser.setting.DateAlphabet;
+import org.ceaser.setting.LettersAlphabet;
 
 public class TextService {
 
@@ -19,7 +19,7 @@ public class TextService {
     }
 
     private int checkTextLanguageUkraine(String text){
-        char[] dataArrayAlphabet = DateAlphabet.UKRAINIAN.getDate().toCharArray();
+        char[] dataArrayAlphabet = LettersAlphabet.UKRAINIAN.getDate().toCharArray();
         char[] dataArrayMessage = text.toCharArray();
 
         int result = 0;
@@ -35,7 +35,7 @@ public class TextService {
     }
 
     private int checkTextLanguageEnglish(String text){
-        char[] dataArrayAlphabet = DateAlphabet.ENGLISH.getDate().toCharArray();
+        char[] dataArrayAlphabet = LettersAlphabet.ENGLISH.getDate().toCharArray();
         char[] dataArrayMessage = text.toCharArray();
 
         int result = 0;
