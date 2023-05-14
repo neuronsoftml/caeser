@@ -1,7 +1,7 @@
 package org.ceaser.model;
 
 import org.apache.commons.cli.*;
-import org.ceaser.error.Config;
+import org.ceaser.error.ConfigError;
 
 public class CLI {
     private final String[] settings;
@@ -68,15 +68,15 @@ public class CLI {
 
     private void checkParameters(){
         if(command == null){
-            System.out.println(Config.ERROR_COMMAND.getText());
+            System.out.println(ConfigError.ERROR_COMMAND.getText());
             System.exit(0);
         }
         else if(filepath == null){
-            System.out.println(Config.ERROR_FILE_PATH.getText());
+            System.out.println(ConfigError.ERROR_FILE_PATH.getText());
             System.exit(0);
         }
         else if (modeOfOperation ==  null) {
-            System.out.println(Config.ERROR_MODE_OF_OPERATION.getText());
+            System.out.println(ConfigError.ERROR_MODE_OF_OPERATION.getText());
             System.exit(0);
         }
     }
