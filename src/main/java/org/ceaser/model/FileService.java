@@ -1,11 +1,11 @@
 package org.ceaser.model;
 
-import org.ceaser.error.Config;
+import org.ceaser.error.ConfigError;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 
 public class FileService {
     public String readFile(String url){
@@ -37,7 +37,7 @@ public class FileService {
     private void checkIsRegularFile(String url){
         Path path = Path.of(url);
         if(!Files.isRegularFile(path)){
-            System.out.println(Config.ERROR_REGULAR_FILE +" "+url);
+            System.out.println(ConfigError.ERROR_REGULAR_FILE +" "+url);
             System.exit(0);
         }
     }
@@ -45,4 +45,5 @@ public class FileService {
         Path path = Path.of(url).getParent();
         return String.valueOf(path);
     }
+
 }
