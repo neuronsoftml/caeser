@@ -1,7 +1,7 @@
 package org.ceaser.model;
 
 import org.apache.commons.cli.ParseException;
-import org.ceaser.setting.Settings;
+import org.ceaser.setting.ConfigCLI;
 import org.ceaser.controller.ControllerConsole;
 import org.ceaser.controller.ControllerGUI;
 
@@ -21,10 +21,10 @@ public class Runner {
     private void checkModeOfOperation(){
         this.modeOfOperation = CLI.getModeOfOperation();
 
-        if(modeOfOperation.equals(Settings.MODE_OF_OPERATION_CONSOLE.getValue())){
+        if(modeOfOperation.equals(ConfigCLI.MODE_OF_OPERATION_CONSOLE.getValue())){
             runProgramWindowConsole();
         }
-        else if(modeOfOperation.equals(Settings.MODE_OF_OPERATION_GUI.getValue())){
+        else if(modeOfOperation.equals(ConfigCLI.MODE_OF_OPERATION_GUI.getValue())){
             runProgramWindowGUI();
         }
 
