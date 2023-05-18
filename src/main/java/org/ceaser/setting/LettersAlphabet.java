@@ -4,7 +4,7 @@ public enum LettersAlphabet {
     ENGLISH("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
     UKRAINIAN("АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩьЮЯ"),
     SPECIAL_CHARACTERS_ALL(".,\":-!? «»\\"),
-    DATA_ALPHABET("");
+    ALPHABET("");
 
 
     private String date;
@@ -12,12 +12,12 @@ public enum LettersAlphabet {
         this.date = s;
     }
 
-    public String getDataAlphabetToUp(String dateAlphabet){
-        return dateAlphabet + SPECIAL_CHARACTERS_ALL.getDate();
+    public String getAlphabetToUp(String alphabet){
+        return alphabet + SPECIAL_CHARACTERS_ALL.getDate();
     }
 
-    public String getDataAlphabetToLower(String dateAlphabet){
-        return dateAlphabet.toLowerCase() + SPECIAL_CHARACTERS_ALL.getDate().toLowerCase();
+    public String getAlphabetToLower(String alphabet){
+        return alphabet.toLowerCase() + SPECIAL_CHARACTERS_ALL.getDate().toLowerCase();
     }
 
     public String getDate(){

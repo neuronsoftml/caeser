@@ -3,17 +3,16 @@ package org.ceaser.model;
 import org.ceaser.setting.LettersAlphabet;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class CaesarCipher {
-    private String dateAlphabet;
+    private String alphabet;
     private String text;
     private String filePath;
     private int retreat;
-    private char[] dataArrayAlphabetToUp;
-    private char[] dataArrayAlphabetToLower;
-    private char[] dataText;
+    private char[] arrayAlphabetToUp;
+    private char[] arrayAlphabetToLower;
+    private char[] arrayLettersText;
 
    private FileService fileService = new FileService();
     public CaesarCipher(int key, String filePath) {
@@ -24,7 +23,7 @@ public class CaesarCipher {
         setTheAlphabet(text);
         setDataArrayAlphabet();
 
-        this.dataText = text.toCharArray();
+        this.arrayLettersText = text.toCharArray();
     }
     public CaesarCipher(String filePath) {
         this.filePath = filePath;
@@ -32,35 +31,35 @@ public class CaesarCipher {
         setTheAlphabet(text);
         setDataArrayAlphabet();
 
-        this.dataText = text.toCharArray();
+        this.arrayLettersText = text.toCharArray();
     }
 
     private void setDataArrayAlphabet(){
-        this.dataArrayAlphabetToUp = LettersAlphabet.DATA_ALPHABET.getDataAlphabetToUp(dateAlphabet).toCharArray();
-        this.dataArrayAlphabetToLower = LettersAlphabet.DATA_ALPHABET.getDataAlphabetToLower(dateAlphabet).toCharArray();
+        this.arrayAlphabetToUp = LettersAlphabet.ALPHABET.getAlphabetToUp(alphabet).toCharArray();
+        this.arrayAlphabetToLower = LettersAlphabet.ALPHABET.getAlphabetToLower(alphabet).toCharArray();
     }
 
     private void setTheAlphabet(String text){
         TextService textService = new TextService();
         if (textService.isTextLanguageEnglish(text)) {
-            this.dateAlphabet = LettersAlphabet.ENGLISH.getDate();
+            this.alphabet = LettersAlphabet.ENGLISH.getDate();
         } else if (textService.isTextLanguageUkraine(text)) {
-            this.dateAlphabet = LettersAlphabet.UKRAINIAN.getDate();
+            this.alphabet = LettersAlphabet.UKRAINIAN.getDate();
         }
     }
 
     public String encryption() {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < dataText.length; i++) {
-            for (int y = 0; y < dataArrayAlphabetToUp.length; y++) {
+        for (int i = 0; i < arrayLettersText.length; i++) {
+            for (int y = 0; y < arrayAlphabetToUp.length; y++) {
                 int indexNewChar;
-                if (dataArrayAlphabetToLower[y] == dataText[i]) {
+                if (arrayAlphabetToLower[y] == arrayLettersText[i]) {
                     indexNewChar = getIndexOffsetByKeyEncrypt(y);
-                    result.append(dataArrayAlphabetToLower[indexNewChar]);
+                    result.append(arrayAlphabetToLower[indexNewChar]);
                     break;
-                } else if (dataArrayAlphabetToUp[y] == dataText[i]) {
+                } else if (arrayAlphabetToUp[y] == arrayLettersText[i]) {
                     indexNewChar = getIndexOffsetByKeyEncrypt(y);
-                    result.append(dataArrayAlphabetToUp[indexNewChar]);
+                    result.append(arrayAlphabetToUp[indexNewChar]);
                     break;
                 }
             }
@@ -71,16 +70,16 @@ public class CaesarCipher {
 
     public String decryption() {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < dataText.length; i++) {
-            for (int y = 0; y < dataArrayAlphabetToUp.length; y++) {
+        for (int i = 0; i < arrayLettersText.length; i++) {
+            for (int y = 0; y < arrayAlphabetToUp.length; y++) {
                 int indexNewChar;
-                if (dataArrayAlphabetToLower[y] == dataText[i]) {
+                if (arrayAlphabetToLower[y] == arrayLettersText[i]) {
                     indexNewChar = getIndexOffsetByKeyDecrypt(y);
-                    result.append(dataArrayAlphabetToLower[indexNewChar]);
+                    result.append(arrayAlphabetToLower[indexNewChar]);
                     break;
-                } else if (dataArrayAlphabetToUp[y] == dataText[i]) {
+                } else if (arrayAlphabetToUp[y] == arrayLettersText[i]) {
                     indexNewChar = getIndexOffsetByKeyDecrypt(y);
-                    result.append(dataArrayAlphabetToUp[indexNewChar]);
+                    result.append(arrayAlphabetToUp[indexNewChar]);
                     break;
                 }
             }
@@ -92,7 +91,7 @@ public class CaesarCipher {
     private int getIndexOffsetByKeyEncrypt(int start){
         int indexAlphabet = start;
         for(int x = 0; x < retreat; x++){
-            if(indexAlphabet == dataArrayAlphabetToUp.length-1){
+            if(indexAlphabet == arrayAlphabetToUp.length-1){
                 indexAlphabet = 0;
             }else {
                 indexAlphabet++;
@@ -108,7 +107,7 @@ public class CaesarCipher {
         int indexAlphabet = start;
         for(int x = 0; x < retreat; x++){
             if(indexAlphabet == 0){
-                indexAlphabet = dataArrayAlphabetToUp.length-1;
+                indexAlphabet = arrayAlphabetToUp.length-1;
             }else {
                 indexAlphabet--;
             }
@@ -123,7 +122,7 @@ public class CaesarCipher {
         int indexAlphabet = start;
         for(int x = 0; x < key; x++){
             if(indexAlphabet == 0){
-                indexAlphabet = dataArrayAlphabetToUp.length-1;
+                indexAlphabet = arrayAlphabetToUp.length-1;
             }else {
                 indexAlphabet--;
             }
@@ -139,7 +138,7 @@ public class CaesarCipher {
         int startKey = 0;
         int endKey = 30;
         brutForceAttack(startKey,endKey);
-           AnalysisManager analysisManager = new AnalysisManager(dateAlphabet);
+           AnalysisManager analysisManager = new AnalysisManager(alphabet);
            if(analysisManager.start(decipheredVariantsOfText) == null){
                startKey =  endKey;
                endKey = startKey +30;
@@ -159,16 +158,16 @@ public class CaesarCipher {
         decipheredVariantsOfText = new ArrayList<>();
         for (int key = startKey; key < endKey; key++) {
             StringBuilder result = new StringBuilder();
-            for (int i = 0; i < dataText.length; i++) {
-                for (int y = 0; y < dataArrayAlphabetToUp.length; y++) {
+            for (int i = 0; i < arrayLettersText.length; i++) {
+                for (int y = 0; y < arrayAlphabetToUp.length; y++) {
                     int indexNewChar;
-                    if (dataArrayAlphabetToLower[y] == dataText[i]) {
+                    if (arrayAlphabetToLower[y] == arrayLettersText[i]) {
                         indexNewChar = getIndexOffsetByKeyBrutForce(y, key);
-                        result.append(dataArrayAlphabetToLower[indexNewChar]);
+                        result.append(arrayAlphabetToLower[indexNewChar]);
                         break;
-                    } else if (dataArrayAlphabetToUp[y] == dataText[i]) {
+                    } else if (arrayAlphabetToUp[y] == arrayLettersText[i]) {
                         indexNewChar = getIndexOffsetByKeyBrutForce(y, key);
-                        result.append(dataArrayAlphabetToUp[indexNewChar]);
+                        result.append(arrayAlphabetToUp[indexNewChar]);
                         break;
                     }
                 }
