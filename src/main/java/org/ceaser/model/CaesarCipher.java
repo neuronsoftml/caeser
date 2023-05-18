@@ -3,6 +3,7 @@ package org.ceaser.model;
 import org.ceaser.setting.LettersAlphabet;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CaesarCipher {
@@ -18,8 +19,9 @@ public class CaesarCipher {
     public CaesarCipher(int key, String filePath) {
         this.filePath = filePath;
         this.text = fileService.readFile(filePath);
+        this.retreat = key;
+
         setTheAlphabet(text);
-        checkSelectKey(key);
         setDataArrayAlphabet();
 
         this.dataText = text.toCharArray();
@@ -34,8 +36,8 @@ public class CaesarCipher {
     }
 
     private void setDataArrayAlphabet(){
-        this.dataArrayAlphabetToUp = new String(dateAlphabet + LettersAlphabet.SPECIAL_CHARACTERS_ALL.getDate()).toCharArray();
-        this.dataArrayAlphabetToLower = new String(dateAlphabet + LettersAlphabet.SPECIAL_CHARACTERS_ALL.getDate()).toLowerCase().toCharArray();
+        this.dataArrayAlphabetToUp = LettersAlphabet.DATA_ALPHABET.getDataAlphabetToUp(dateAlphabet).toCharArray();
+        this.dataArrayAlphabetToLower = LettersAlphabet.DATA_ALPHABET.getDataAlphabetToLower(dateAlphabet).toCharArray();
     }
 
     private void setTheAlphabet(String text){
@@ -47,24 +49,7 @@ public class CaesarCipher {
         }
     }
 
-    private void checkSelectKey(int key){
-        if(key <= 0){
-            this.retreat = generationRandomKey();
-        }else {
-            this.retreat = key;
-        }
-    }
-
-    private int generationRandomKey(){
-        int key;
-        int maxKeyValue = 264;
-        int minKeyValue = 1;
-        maxKeyValue -= minKeyValue;
-        key = (int) (Math.random() * ++maxKeyValue) + minKeyValue;
-        return  key;
-    }
-
-    public void encryption() {
+    public String encryption() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < dataText.length; i++) {
             for (int y = 0; y < dataArrayAlphabetToUp.length; y++) {
@@ -80,11 +65,11 @@ public class CaesarCipher {
                 }
             }
         }
-        new FileService().writerFile(result.toString(), filePath, "\\[ENCRYPTED].txt");
         System.out.println(result);
+        return  result.toString();
     }
 
-    public void decryption() {
+    public String decryption() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < dataText.length; i++) {
             for (int y = 0; y < dataArrayAlphabetToUp.length; y++) {
@@ -100,8 +85,8 @@ public class CaesarCipher {
                 }
             }
         }
-        new FileService().writerFile(result.toString(), filePath, "\\[DECRYPTED].txt");
         System.out.println(result);
+        return  result.toString();
     }
 
     private int getIndexOffsetByKeyEncrypt(int start){
@@ -150,7 +135,7 @@ public class CaesarCipher {
     }
 
     List<String> decipheredVariantsOfText;
-    public void brutForce() {
+    public String brutForce() {
         int startKey = 0;
         int endKey = 30;
         brutForceAttack(startKey,endKey);
@@ -161,12 +146,13 @@ public class CaesarCipher {
                brutForceAttack(startKey, endKey);
            }
            else {
-               new FileService().writerFile(analysisManager.start(decipheredVariantsOfText), filePath, "\\[BRUTE_FORCE].txt");
                System.out.println("BRUTE_FORCE пройшла УСПІШНО. Ключь: ");
                System.out.println("_______________________________");
                System.out.println(analysisManager.getResultBrutForceAttack());
                System.out.println("_______________________________");
+               return analysisManager.start(decipheredVariantsOfText);
            }
+           return  null;
     }
 
     private void brutForceAttack(int startKey, int endKey){
@@ -191,7 +177,4 @@ public class CaesarCipher {
         }
     }
 
-    private int determiningTheCorrectKey(int endKey, int numberCycles){
-        return endKey - numberCycles;
-    }
 }
