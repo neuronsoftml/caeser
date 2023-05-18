@@ -23,24 +23,36 @@ public class AnalysisManager {
         collectionOfResultsAnalysisPutAll(decipheredVariantsOfText);
 
         for(String element : collectionOfResultsAnalysis.keySet()){
+           // System.out.println(element+ " "+collectionOfResultsAnalysis.get(element));
             calculationOfPointsOfElements(element);
         }
-        return getResultBrutForceAttack();
+        return searchForTheMaximumPoint();
     }
 
-    private String getResultBrutForceAttack() {
+
+
+    private String searchForTheMaximumPoint(){
         int maxPoint = 0;
         String result = "";
-
         for(String element : collectionOfResultsAnalysis.keySet()){
             int pointElement = collectionOfResultsAnalysis.get(element);
             if(pointElement > maxPoint){
                 maxPoint =  pointElement;
                 result = element;
+
             }
         }
-
+        if(maxPoint < result.length()){
+            return null;
+        }
+        this.getTextResultBrutForceAttack = result;
         return result;
+    }
+
+
+    private String getTextResultBrutForceAttack;
+    public String getResultBrutForceAttack() {
+        return getTextResultBrutForceAttack;
     }
 
 
@@ -48,6 +60,8 @@ public class AnalysisManager {
         sentenceConstructionCheck(element);
 
         checkIsCorrectlyIsSpecialCharacters(element);
+
+        checkTheSpellingOfTheWord(element);
     }
 
     //Здійснює перевірку правильного речення.
@@ -85,21 +99,21 @@ public class AnalysisManager {
         }
         return result;
     }
-    private final char[] SPECIAL_CHARACTERS = {'.','!','?',':'};
+    private final char[] END_PUNCTUATION = {'.','!','?',':'};
     private final char SPACE = ' ';
 
     private List<String> separatingSentences(String element){
         List<String> resultList = new ArrayList<>();
-        for(int i = 0; i < SPECIAL_CHARACTERS.length; i++){
-            StringTokenizer stringTokenizer = new StringTokenizer(element,String.valueOf(SPECIAL_CHARACTERS[i])+SPACE);
+        for(int i = 0; i < END_PUNCTUATION.length; i++){
+            StringTokenizer stringTokenizer = new StringTokenizer(element,String.valueOf(END_PUNCTUATION[i])+SPACE);
             while (stringTokenizer.hasMoreTokens()){
-                resultList.add(stringTokenizer.nextToken()+SPECIAL_CHARACTERS[i]);
+                resultList.add(stringTokenizer.nextToken()+ END_PUNCTUATION[i]);
             }
         }
         return resultList;
     }
 
-    private final char[] SPECIAL_CHARACTERS_ALL = {'.', ',', '!', '?', ':'};
+    private final char[] SPECIAL_CHARACTERS = {'.', ',', '!', '?', ':'};
     private void checkIsCorrectlyIsSpecialCharacters(String element){
         final char[] arrayLettersElement = element.toCharArray();
 
@@ -107,13 +121,39 @@ public class AnalysisManager {
             if(i == arrayLettersElement.length-2){
                 break;
             }
-            for(int j = 0; j < SPECIAL_CHARACTERS_ALL.length; j++){
-                if(arrayLettersElement[i] == SPECIAL_CHARACTERS_ALL[j] && arrayLettersElement[i+1] == SPACE){
+            for(int j = 0; j < SPECIAL_CHARACTERS.length; j++){
+                if(arrayLettersElement[i] == SPECIAL_CHARACTERS[j] && arrayLettersElement[i+1] == SPACE){
                     addPointResultsAnalysis(1,element);
                 }
             }
         }
     }
+
+    private final char[] SPECIAL_CHARACTERS_ALL = LettersAlphabet.SPECIAL_CHARACTERS_ALL.getDate().toCharArray();
+    private void checkTheSpellingOfTheWord(String element){
+        List<String> words = splitWords(element);
+        for(String word: words){
+            char firstLetter = word.charAt(0);
+            for(int i = 0; i < SPECIAL_CHARACTERS_ALL.length; i++){
+                if(firstLetter != SPECIAL_CHARACTERS_ALL[i]){
+                    addPointResultsAnalysis(1,element);
+                }
+                if(!(word.length() > 6) && !(word.length() < 3) ){
+                    addPointResultsAnalysis(1,element);
+                }
+            }
+        }
+    }
+
+    private List<String>splitWords(String element){
+        List<String> words = new ArrayList<>();
+        StringTokenizer stringTokenizer = new StringTokenizer(element," ");
+        while (stringTokenizer.hasMoreTokens()){
+            words.add(stringTokenizer.nextToken());
+        }
+        return words;
+    }
+
 
     private void addPointResultsAnalysis(int point, String element){
         for(String c : collectionOfResultsAnalysis.keySet()){
@@ -123,36 +163,16 @@ public class AnalysisManager {
         }
     }
 
+    private void deletePointResultsAnalysis(int point, String element){
+        for(String c : collectionOfResultsAnalysis.keySet()){
+            if(c.equals(element)){
+                collectionOfResultsAnalysis.put(element,collectionOfResultsAnalysis.get(c)-point);
+            }
+        }
+    }
     private void collectionOfResultsAnalysisPutAll(List<String> elements){
         for(String element : elements){
             collectionOfResultsAnalysis.put(element,0);
         }
     }
-
-      /*private TreeMap<String, Integer> letterFrequency(String element){
-
-        TreeMap<String,Integer> letterFrequency = new TreeMap<>();
-        char[] dateAlphabetArray = dateAlphabet.toCharArray();
-        char[] elementArray = element.toUpperCase().toCharArray();
-
-        for(int i=0; i < elementArray.length; i++){
-
-            for(int j=0; j < dateAlphabetArray.length; j++){
-
-                if(dateAlphabetArray[j] == elementArray[i]){
-                    String key = String.valueOf(dateAlphabetArray[j]);
-                    Integer value;
-                    if(letterFrequency.get(key) == null){
-                        value = 1;
-                    }else {
-                        value = letterFrequency.get(key)+1;
-                    }
-                    letterFrequency.put(key, value);
-                    break;
-                }
-            }
-        }
-        return  letterFrequency;
-    }
-*/
 }

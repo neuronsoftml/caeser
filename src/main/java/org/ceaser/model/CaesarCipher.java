@@ -34,8 +34,8 @@ public class CaesarCipher {
     }
 
     private void setDataArrayAlphabet(){
-        this.dataArrayAlphabetToUp = dateAlphabet.toUpperCase().toCharArray();
-        this.dataArrayAlphabetToLower = dateAlphabet.toLowerCase().toCharArray();
+        this.dataArrayAlphabetToUp = new String(dateAlphabet + LettersAlphabet.SPECIAL_CHARACTERS_ALL.getDate()).toCharArray();
+        this.dataArrayAlphabetToLower = new String(dateAlphabet + LettersAlphabet.SPECIAL_CHARACTERS_ALL.getDate()).toLowerCase().toCharArray();
     }
 
     private void setTheAlphabet(String text){
@@ -81,6 +81,7 @@ public class CaesarCipher {
             }
         }
         new FileService().writerFile(result.toString(), filePath, "\\[ENCRYPTED].txt");
+        System.out.println(result);
     }
 
     public void decryption() {
@@ -100,6 +101,7 @@ public class CaesarCipher {
             }
         }
         new FileService().writerFile(result.toString(), filePath, "\\[DECRYPTED].txt");
+        System.out.println(result);
     }
 
     private int getIndexOffsetByKeyEncrypt(int start){
@@ -147,42 +149,49 @@ public class CaesarCipher {
         return 0;
     }
 
+    List<String> decipheredVariantsOfText;
     public void brutForce() {
-        int startKey = 110;
-        int endKey = 125;
-       while (true){
-           List<String> decipheredVariantsOfText = new ArrayList<>();
-           System.out.println(startKey+ " "+endKey);
-           for (int key = startKey; key < endKey; key++) {
-               StringBuilder result = new StringBuilder();
-               for (int i = 0; i < dataText.length; i++) {
-                   for (int y = 0; y < dataArrayAlphabetToUp.length; y++) {
-                       int indexNewChar;
-                       if (dataArrayAlphabetToLower[y] == dataText[i]) {
-                           indexNewChar = getIndexOffsetByKeyBrutForce(y,key);
-                           result.append(dataArrayAlphabetToLower[indexNewChar]);
-                           break;
-                       } else if (dataArrayAlphabetToUp[y] == dataText[i]) {
-                           indexNewChar = getIndexOffsetByKeyBrutForce(y,key);
-                           result.append(dataArrayAlphabetToUp[indexNewChar]);
-                           break;
-                       }
-                   }
-               }
-               decipheredVariantsOfText.add(result.toString());
-           }
+        int startKey = 0;
+        int endKey = 30;
+        brutForceAttack(startKey,endKey);
            AnalysisManager analysisManager = new AnalysisManager(dateAlphabet);
            if(analysisManager.start(decipheredVariantsOfText) == null){
                startKey =  endKey;
                endKey = startKey +30;
-
+               brutForceAttack(startKey, endKey);
            }
            else {
-               System.out.println(analysisManager.start(decipheredVariantsOfText));
-               break;
+               new FileService().writerFile(analysisManager.start(decipheredVariantsOfText), filePath, "\\[BRUTE_FORCE].txt");
+               System.out.println("BRUTE_FORCE пройшла УСПІШНО. Ключь: ");
+               System.out.println("_______________________________");
+               System.out.println(analysisManager.getResultBrutForceAttack());
+               System.out.println("_______________________________");
            }
-       }
+    }
 
+    private void brutForceAttack(int startKey, int endKey){
+        decipheredVariantsOfText = new ArrayList<>();
+        for (int key = startKey; key < endKey; key++) {
+            StringBuilder result = new StringBuilder();
+            for (int i = 0; i < dataText.length; i++) {
+                for (int y = 0; y < dataArrayAlphabetToUp.length; y++) {
+                    int indexNewChar;
+                    if (dataArrayAlphabetToLower[y] == dataText[i]) {
+                        indexNewChar = getIndexOffsetByKeyBrutForce(y, key);
+                        result.append(dataArrayAlphabetToLower[indexNewChar]);
+                        break;
+                    } else if (dataArrayAlphabetToUp[y] == dataText[i]) {
+                        indexNewChar = getIndexOffsetByKeyBrutForce(y, key);
+                        result.append(dataArrayAlphabetToUp[indexNewChar]);
+                        break;
+                    }
+                }
+            }
+            decipheredVariantsOfText.add(result.toString());
+        }
+    }
 
+    private int determiningTheCorrectKey(int endKey, int numberCycles){
+        return endKey - numberCycles;
     }
 }
