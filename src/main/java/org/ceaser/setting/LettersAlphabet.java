@@ -1,8 +1,8 @@
 package org.ceaser.setting;
 
 public enum LettersAlphabet {
-    ENGLISH("ABCDEFGHIJKLMNOPQRSTUVWXYZ.,\":-!? «»\\"),
-    UKRAINIAN("АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩьЮЯ.,\":-!? «»\\"),
+    ENGLISH("ABCDEFGHIJKLMNOPQRSTUVWXYZ"),
+    UKRAINIAN("АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩьЮЯ"),
     SPECIAL_CHARACTERS_ALL(".,\":-!? «»\\");
 
     private String date;
