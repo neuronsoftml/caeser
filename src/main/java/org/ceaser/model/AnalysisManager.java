@@ -19,7 +19,6 @@ public class AnalysisManager {
     }
 
     private String analyzerBruteForce(List<String> decipheredVariantsOfText) {
-        //Cтворили загальну базу балов варіантів розшифрованого тексту.
         collectionOfResultsAnalysisPutAll(decipheredVariantsOfText);
 
         for(String element : collectionOfResultsAnalysis.keySet()){

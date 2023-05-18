@@ -134,24 +134,24 @@ public class CaesarCipher {
     }
 
     List<String> decipheredVariantsOfText;
-    public String brutForce() {
-        int startKey = 0;
-        int endKey = 30;
+
+
+    public String brutForce(int startKey, int endKey) {
         brutForceAttack(startKey,endKey);
            AnalysisManager analysisManager = new AnalysisManager(alphabet);
            if(analysisManager.start(decipheredVariantsOfText) == null){
                startKey =  endKey;
                endKey = startKey +30;
-               brutForceAttack(startKey, endKey);
            }
            else {
+               System.out.println(endKey);
                System.out.println("BRUTE_FORCE пройшла УСПІШНО. Ключь: ");
                System.out.println("_______________________________");
                System.out.println(analysisManager.getResultBrutForceAttack());
                System.out.println("_______________________________");
                return analysisManager.start(decipheredVariantsOfText);
            }
-           return  null;
+           return analysisManager.start(decipheredVariantsOfText);
     }
 
     private void brutForceAttack(int startKey, int endKey){

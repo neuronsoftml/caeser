@@ -42,7 +42,7 @@ public class ControllerConsole {
 
     private void runBrutForce(){
         CaesarCipher caesarCipher = new CaesarCipher(filePath);
-        new FileService().writerFile(caesarCipher.brutForce(), filePath, "\\[BRUTE_FORCE].txt");
+        new FileService().writerFile(caesarCipher.brutForce(0,30), filePath, "\\[BRUTE_FORCE].txt");
     }
 
 }

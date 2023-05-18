@@ -93,7 +93,7 @@ public class CLI {
     }
 
     private boolean validateKey(int key){
-        if(key == 0 && modeOfOperation.equals(ConfigCLI.COMMAND_BRUTE_FORCE.getValue())){
+        if(key == 0 && command.equals(ConfigCLI.COMMAND_BRUTE_FORCE.getValue())){
             return true;
         }
         else if(key <= 0){
