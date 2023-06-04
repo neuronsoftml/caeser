@@ -32,17 +32,18 @@ public class ControllerConsole {
 
     private void runDecrypt() {
         CaesarCipher caesarCipher = new CaesarCipher(key, filePath);
-        new FileService().writerFile(caesarCipher.decryption(), filePath, "\\[DECRYPTED].txt");
+        new FileService().writerFile(caesarCipher.decryption(), filePath, "[DECRYPTED].txt");
     }
 
     private void runEncryption() {
         CaesarCipher caesarCipher = new CaesarCipher(key, filePath);
-        new FileService().writerFile(caesarCipher.encryption(), filePath, "\\[ENCRYPTED].txt");
+        System.out.println(filePath);
+        new FileService().writerFile(caesarCipher.encryption(), filePath, "[ENCRYPTED].txt");
     }
 
     private void runBrutForce(){
         CaesarCipher caesarCipher = new CaesarCipher(filePath);
-        new FileService().writerFile(caesarCipher.brutForce(0,30), filePath, "\\[BRUTE_FORCE].txt");
+        new FileService().writerFile(caesarCipher.brutForce(0,30), filePath, "[BRUTE_FORCE].txt");
     }
 
 }

@@ -5,6 +5,7 @@ import org.ceaser.error.ConfigError;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class FileService {
@@ -23,8 +24,8 @@ public class FileService {
         return unencryptedTerm;
     }
 
-   public void writerFile(String data, String url, String type){
-        String urlResultFile = genericPath(url)+type;
+    public void writerFile(String data, String url, String type){
+        String urlResultFile = genericPath(url);
         try(FileWriter writer = new FileWriter(urlResultFile)) {
             writer.write(data);
         } catch (FileNotFoundException e) {
